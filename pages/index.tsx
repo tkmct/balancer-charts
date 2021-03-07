@@ -1,15 +1,28 @@
-import { gql, useQuery } from '@apollo/client'
 import Head from 'next/head'
+import Select, { createFilter } from 'react-select'
+
+import { getPairName, tokenPairs } from '../utils/tokenlist'
+
 import styles from '../styles/Home.module.css'
-
-import tokenlist from '../utils/tokenlist'
-
-// get pool pairs
-// const POOL_PAIRS = gql``
+import { useEffect, useState } from 'react'
 
 export default function Home() {
-  // const { loading, error, data } = useQuery()
-  console.log(tokenlist)
+  const options = tokenPairs.map((pair) => ({
+    value: pair,
+    label: getPairName(pair)
+  }))
+
+  const [pair, setPair] = useState(undefined)
+  const [data, setData] = useState({ data: undefined })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // TODO: setData
+      console.log('fetch data')
+    }
+
+    fetchData()
+  }, [pair])
 
   return (
     <div className={styles.container}>
@@ -18,13 +31,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ul>
-        {tokenlist.tokens.map((token) => (
-          <li key={token.address}>{token.address}</li>
-        ))}
-      </ul>
-
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        <div className={styles.select_container}>
+          {/* TODO: implement Select box from scratch for better performance and fuzzy search */}
+          <Select
+            filterOption={createFilter({ ignoreAccents: false })}
+            options={options}
+            onChange={(pair) => setPair(pair)}
+          />
+        </div>
+      </main>
     </div>
   )
 }
