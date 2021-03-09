@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.11",
     "assets": "github:balancer-labs/assets#master",
+    "bignumber.js": "^9.0.1",
     "graphql": "^15.5.0",
     "next": "10.0.8",
     "react": "17.0.1",
