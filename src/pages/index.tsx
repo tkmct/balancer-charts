@@ -5,6 +5,28 @@ import { getPairName, tokenPairs } from '../utils/tokenlist'
 
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
+import { gql, useQuery } from '@apollo/client'
+
+const GET_POOLS = gql`
+  {
+    pools {
+      id
+      finalized
+      publicSwap
+      swapFee
+      totalWeight
+      tokensList
+      tokens {
+        id
+        address
+        balance
+        decimals
+        symbol
+        denormWeight
+      }
+    }
+  }
+`
 
 export default function Home() {
   const options = tokenPairs.map((pair) => ({
@@ -13,7 +35,7 @@ export default function Home() {
   }))
 
   const [pair, setPair] = useState(undefined)
-  const [data, setData] = useState({ data: undefined })
+  const { loading, error, data } = useQuery(GET_POOLS)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +62,8 @@ export default function Home() {
             onChange={(pair) => setPair(pair)}
           />
         </div>
+
+        <div>{JSON.stringify(data)}</div>
       </main>
     </div>
   )

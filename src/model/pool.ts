@@ -20,7 +20,13 @@ export class Pool {
   tokens: PoolToken[]
   liquidity: BigNumber
 
-  public liquidityOfPair(token1, token2): BigNumber {
+  constructor(id: string, tokens: PoolToken[], liquidity: BigNumber) {
+    this.id = id
+    this.tokens = tokens
+    this.liquidity = liquidity
+  }
+
+  public liquidityOfPair(token1: string, token2: string): BigNumber {
     return new BigNumber(0)
   }
 }
