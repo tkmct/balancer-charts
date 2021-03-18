@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
-import { SUBGRAPH_URL } from '../utils/constant'
+import { SUBGRAPH_URL } from '../constant'
 
 const client = new ApolloClient({
   uri: SUBGRAPH_URL,
