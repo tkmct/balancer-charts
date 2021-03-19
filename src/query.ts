@@ -1,27 +1,41 @@
 import { gql } from '@apollo/client'
 
 export const GET_SWAPS = gql`
-  {
-    swaps(
+  query SwapPair(
+    $token_1: Bytes!
+    $token_2: Bytes!
+    $last_timestamp12: Int
+    $last_timestamp21: Int
+  ) {
+    swaps12: swaps(
+      first: 1000
       where: {
-        tokenIn_in: [
-          "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
-          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-        ]
-        tokenOut_in: [
-          "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-          "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
-        ]
+        tokenIn: $token_1
+        tokenOut: $token_2
+        timestamp_lt: $last_timestamp12
       }
       orderBy: timestamp
+      orderDirection: desc
     ) {
       id
-      tokenIn
       tokenInSym
-      tokenAmountIn
-      tokenOut
       tokenOutSym
-      tokenAmountOut
+      timestamp
+      value
+    }
+    swaps21: swaps(
+      first: 1000
+      where: {
+        tokenIn: $token_2
+        tokenOut: $token_1
+        timestamp_lt: $last_timestamp21
+      }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      id
+      tokenInSym
+      tokenOutSym
       timestamp
       value
     }

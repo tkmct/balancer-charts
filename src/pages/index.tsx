@@ -1,13 +1,16 @@
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import Select, { createFilter } from 'react-select'
 import LoadingIndicator from '../components/LoadingIndicator'
 
+import styles from '../styles/Home.module.css'
+
+import { useState } from 'react'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
 
-import styles from '../styles/Home.module.css'
-import { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { GET_SWAPS } from '../query'
+const SwapVolumeChart = dynamic(() => import('../components/SwapVolumeChart'), {
+  ssr: false
+})
 
 export default function Home() {
   const options = tokenPairs.map((pair) => ({
@@ -16,16 +19,6 @@ export default function Home() {
   }))
 
   const [pair, setPair] = useState(undefined)
-  const { loading, error, data } = useQuery(GET_SWAPS)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // TODO: setData
-      console.log('fetch data')
-    }
-
-    fetchData()
-  }, [pair])
 
   return (
     <div className={styles.container}>
@@ -33,6 +26,7 @@ export default function Home() {
         <title>Balancer charts</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <header>Balancer Info</header>
 
       <main className={styles.main}>
         <div className={styles.select_container}>
@@ -40,11 +34,13 @@ export default function Home() {
           <Select
             filterOption={createFilter({ ignoreAccents: false })}
             options={options}
-            onChange={(pair) => setPair(pair)}
+            onChange={({ value }) => setPair(value)}
           />
         </div>
 
-        <div>{loading ? <LoadingIndicator /> : JSON.stringify(data)}</div>
+        <div>
+          <SwapVolumeChart pair={pair} />
+        </div>
       </main>
     </div>
   )

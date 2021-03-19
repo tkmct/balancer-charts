@@ -24,7 +24,7 @@ export interface TokenList {
   tokens: Token[]
 }
 
-interface Token {
+export interface Token {
   address: string
   chainId: number
   name: string
@@ -33,7 +33,7 @@ interface Token {
   logoURI?: string
 }
 
-interface TokenPair {
+export interface TokenPair {
   token1: Token
   token2: Token
 }
