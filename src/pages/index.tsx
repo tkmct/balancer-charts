@@ -7,6 +7,11 @@ import styles from '../styles/Home.module.css'
 
 import { useState } from 'react'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
+import {
+  ApolloClient,
+  ApolloConsumer,
+  NormalizedCacheObject
+} from '@apollo/client'
 
 const SwapVolumeChart = dynamic(() => import('../components/SwapVolumeChart'), {
   ssr: false
@@ -39,7 +44,11 @@ export default function Home() {
         </div>
 
         <div>
-          <SwapVolumeChart pair={pair} />
+          <ApolloConsumer>
+            {(client: ApolloClient<NormalizedCacheObject>) => (
+              <SwapVolumeChart pair={pair} apolloClient={client} />
+            )}
+          </ApolloConsumer>
         </div>
       </main>
     </div>

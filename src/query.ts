@@ -2,20 +2,24 @@ import { gql } from '@apollo/client'
 
 export const GET_SWAPS = gql`
   query SwapPair(
-    $token_1: Bytes!
-    $token_2: Bytes!
-    $last_timestamp12: Int
-    $last_timestamp21: Int
+    $token_1: Bytes
+    $token_2: Bytes
+    $last_id_1: ID
+    $last_id_2: ID
+    $timestamp: Int
+    $count_1: Int
+    $count_2: Int
   ) {
     swaps12: swaps(
       first: 1000
       where: {
         tokenIn: $token_1
         tokenOut: $token_2
-        timestamp_lt: $last_timestamp12
+        timestamp_gt: $timestamp
+        id_gt: $last_id_1
       }
-      orderBy: timestamp
-      orderDirection: desc
+      orderBy: id
+      orderDirection: asc
     ) {
       id
       tokenInSym
@@ -28,10 +32,11 @@ export const GET_SWAPS = gql`
       where: {
         tokenIn: $token_2
         tokenOut: $token_1
-        timestamp_lt: $last_timestamp21
+        timestamp_gt: $timestamp
+        id_gt: $last_id_2
       }
-      orderBy: timestamp
-      orderDirection: desc
+      orderBy: id
+      orderDirection: asc
     ) {
       id
       tokenInSym
