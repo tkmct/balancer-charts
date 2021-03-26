@@ -11,19 +11,22 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { TokenPair } from '../utils/tokenlist'
 import LoadingIndicator from './LoadingIndicator'
 import useSwapData from '../hooks/useSwapData'
+import { Period } from '../constant'
 
 type Props = {
   pair: TokenPair | undefined
+  period: Period
   apolloClient: ApolloClient<NormalizedCacheObject>
 }
 
-const SwapVolumeChart: React.FC<Props> = ({ pair, apolloClient }) => {
+const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
   if (!pair) return <div>Please select pair</div>
 
   const { loading, error, data } = useSwapData(
     pair.token1.address,
     pair.token2.address,
-    apolloClient
+    apolloClient,
+    period
   )
 
   if (loading) return <LoadingIndicator />

@@ -1,21 +1,18 @@
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
-import Select, { createFilter } from 'react-select'
-import LoadingIndicator from '../components/LoadingIndicator'
-
-import styles from '../styles/Home.module.css'
-
 import { useState } from 'react'
-import { getPairName, tokenPairs } from '../utils/tokenlist'
 import {
   ApolloClient,
   ApolloConsumer,
   NormalizedCacheObject
 } from '@apollo/client'
+import Select, { createFilter } from 'react-select'
 
-const SwapVolumeChart = dynamic(() => import('../components/SwapVolumeChart'), {
-  ssr: false
-})
+import SwapVolumeChart from '../components/SwapVolumeChart'
+import PeriodSelector from '../components/PeriodSelector'
+import { getPairName, tokenPairs } from '../utils/tokenlist'
+import { Period } from '../constant'
+
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
   const options = tokenPairs.map((pair) => ({
@@ -24,6 +21,7 @@ export default function Home() {
   }))
 
   const [pair, setPair] = useState(undefined)
+  const [period, setPeriod] = useState(Period.Month)
 
   return (
     <div className={styles.container}>
@@ -41,12 +39,17 @@ export default function Home() {
             options={options}
             onChange={({ value }) => setPair(value)}
           />
+          <PeriodSelector onSelect={setPeriod} />
         </div>
 
         <div>
           <ApolloConsumer>
             {(client: ApolloClient<NormalizedCacheObject>) => (
-              <SwapVolumeChart pair={pair} apolloClient={client} />
+              <SwapVolumeChart
+                pair={pair}
+                period={period}
+                apolloClient={client}
+              />
             )}
           </ApolloConsumer>
         </div>
