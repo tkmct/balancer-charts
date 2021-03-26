@@ -9,11 +9,12 @@ import Select, { createFilter } from 'react-select'
 
 import SwapVolumeChart from '../components/SwapVolumeChart'
 import PeriodSelector from '../components/PeriodSelector'
+import PageTitle from '../components/PageTitle'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
 import { Period } from '../constant'
 
 import styles from '../styles/Home.module.css'
-import PageTitle from '../components/PageTitle'
+import BrandIcon from '../assets/brandIcon.svg'
 
 export default function Home() {
   const options = tokenPairs.map((pair) => ({
@@ -31,7 +32,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.header}>
-        <div className={styles.header_logo}>Balancer Info</div>
+        <div className={styles.header_logo}>
+          <BrandIcon style={{ width: '26px', marginRight: '8px' }} />
+          <div>Balancer Info</div>
+        </div>
       </header>
 
       <main className={styles.main}>

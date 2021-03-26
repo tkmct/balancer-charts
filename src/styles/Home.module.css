@@ -11,6 +11,9 @@
 .header_logo {
   margin-left: 16px;
   font-size: var(--font-size-large);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
