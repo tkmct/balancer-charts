@@ -1,4 +1,4 @@
-import { ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client'
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { GET_SWAPS } from '../query'
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
