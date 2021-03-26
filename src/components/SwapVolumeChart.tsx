@@ -33,47 +33,57 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
   if (error) return <div>error fetching data: {JSON.stringify(error)}</div>
 
   return (
-    <div>
-      <div style={{ width: 500, height: 300 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            width={500}
-            height={400}
-            data={data}
-            margin={{
-              top: 10,
-              right: 30,
-              left: 0,
-              bottom: 0
+    <div style={{ width: 500, height: 300 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          width={500}
+          height={400}
+          data={data}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="time" />
+          <YAxis
+            orientation="right"
+            tickFormatter={(value) =>
+              new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                style: 'currency',
+                currency: 'USD'
+              }).format(value)
+            }
+          />
+          <Tooltip
+            formatter={(value: number) => [
+              `$${Math.round(value).toLocaleString()}`,
+              'Volume'
+            ]}
+            contentStyle={{
+              backgroundColor: '#21222c',
+              borderRadius: '8px',
+              borderColor: '#333',
+              boxShadow: '0 10px 20px rgb(0 0 0 / 10%)'
             }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
-            <YAxis
-              orientation="right"
-              tickFormatter={(value) =>
-                new Intl.NumberFormat('en-US', {
-                  notation: 'compact',
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(value)
-              }
-            />
-            <Tooltip
-              formatter={(value: number) => [
-                `$${Math.round(value).toLocaleString()}`,
-                'Volume'
-              ]}
-            />
-            <Area
-              dataKey="value"
-              stroke="#8884d8"
-              fill="#8884d8"
-              fillOpacity="0.3"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+            itemStyle={{
+              color: '#fff'
+            }}
+            labelStyle={{
+              color: '#fff'
+            }}
+          />
+          <Area
+            dataKey="value"
+            stroke="#8884d8"
+            fill="#8884d8"
+            fillOpacity="0.3"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   )
 }

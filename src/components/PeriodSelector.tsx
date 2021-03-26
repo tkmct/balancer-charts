@@ -1,36 +1,57 @@
 import { Period } from '../constant'
+import classNames from 'classnames'
+import styles from '../styles/components/PeriodSelector.module.css'
 
 type PeriodButtonProps = {
   label: string
   value: Period
+  selected: boolean
   onClick: (period: Period) => void
 }
 
 const PeriodButton: React.FC<PeriodButtonProps> = ({
   label,
   value,
-  onClick
+  onClick,
+  selected
 }) => {
-  return <button onClick={() => onClick(value)}>{label}</button>
+  return (
+    <button
+      className={classNames(styles.period_button, {
+        [styles.period_button_selected]: selected
+      })}
+      onClick={() => onClick(value)}
+    >
+      {label}
+    </button>
+  )
 }
 
 type Props = {
   onSelect: (period: Period) => void
+  selected: Period
 }
 
-const PeriodSelector: React.FC<Props> = ({ onSelect }) => {
+const PeriodSelector: React.FC<Props> = ({ onSelect, selected }) => {
   return (
-    <div>
-      <PeriodButton label="1 Month" value={Period.Month} onClick={onSelect} />
+    <div className={styles.period_selector}>
+      <PeriodButton
+        label="1 Month"
+        value={Period.Month}
+        onClick={onSelect}
+        selected={selected === Period.Month}
+      />
       <PeriodButton
         label="3 Month"
         value={Period.ThreeMonth}
         onClick={onSelect}
+        selected={selected === Period.ThreeMonth}
       />
       <PeriodButton
         label="6 Month"
         value={Period.SixMonth}
         onClick={onSelect}
+        selected={selected === Period.SixMonth}
       />
     </div>
   )

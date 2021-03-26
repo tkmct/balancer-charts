@@ -1,0 +1,19 @@
+.period_button {
+  min-width: 80px;
+  padding: 8px 12px;
+  border: solid 1px var(--border);
+  border-radius: var(--border-radius-medium);
+  background-color: var(--background-control);
+  color: var(--text-primary);
+  font-size: var(--font-size-medium);
+  margin: 0 4px;
+}
+
+.period_button_selected {
+  background: linear-gradient(185deg, #f0f 0%, #00f 100%);
+}
+
+.period_selector {
+  display: flex;
+  width: 280px;
+}
