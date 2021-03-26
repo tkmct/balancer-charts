@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
 import { createSwapVolumeSeriesData } from '../utils/seriesDataGenerator'
 import { Swap, SwapData, SwapDataSeries } from '../types'
+import { Period } from '../constant'
 
 function dataRemains(data: {
   swaps12: Swap[]
@@ -26,17 +27,11 @@ function calculateOneMonthBefore(period: Period = Period.Month) {
   return dayjs().subtract(month, 'month').startOf('day').unix()
 }
 
-export enum Period {
-  Month,
-  ThreeMonth,
-  SixMonth
-}
-
 export default function useSwapData(
   token1: string,
   token2: string,
   apolloClient: ApolloClient<NormalizedCacheObject>,
-  period: Period = Period.Month
+  period: Period
 ) {
   // get data for one month
   const oneMonthBefore = calculateOneMonthBefore(period)
@@ -60,14 +55,6 @@ export default function useSwapData(
       let swapRemains2 = true
 
       while (remains) {
-        console.log(
-          'fetch swaps: {token_1, token_2, lastId1, lastId2}',
-          token1,
-          token2,
-          lastId1,
-          lastId2
-        )
-
         const res = await apolloClient.query({
           query: GET_SWAPS,
           variables: {
@@ -75,9 +62,7 @@ export default function useSwapData(
             token_2: token2,
             last_id_1: lastId1,
             last_id_2: lastId2,
-            timestamp: oneMonthBefore,
-            count1: swapRemains1 ? 1000 : 0,
-            count2: swapRemains2 ? 1000 : 0
+            timestamp: oneMonthBefore
           }
         })
 
@@ -86,7 +71,6 @@ export default function useSwapData(
         }
 
         if (!res.loading) {
-          console.log(res.data)
           result = createSwapVolumeSeriesData(res.data, result)
 
           const [swap1Remains, swap2Remains] = dataRemains(res.data)
@@ -95,10 +79,10 @@ export default function useSwapData(
           remains = swapRemains1 || swapRemains2
 
           // update id
-          if (res.data.swaps12.length !== 0 && swapRemains1) {
+          if (res.data.swaps12.length !== 0) {
             lastId1 = res.data.swaps12[res.data.swaps12.length - 1].id
           }
-          if (res.data.swaps21.length !== 0 && swapRemains2) {
+          if (res.data.swaps21.length !== 0) {
             lastId2 = res.data.swaps21[res.data.swaps21.length - 1].id
           }
         }

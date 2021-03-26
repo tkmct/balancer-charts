@@ -7,8 +7,6 @@ export const GET_SWAPS = gql`
     $last_id_1: ID
     $last_id_2: ID
     $timestamp: Int
-    $count_1: Int
-    $count_2: Int
   ) {
     swaps12: swaps(
       first: 1000
