@@ -22,7 +22,7 @@ export default function Home() {
     label: getPairName(pair)
   }))
 
-  const [pair, setPair] = useState(undefined)
+  const [pair, setPair] = useState(options[0].value)
   const [period, setPeriod] = useState(Period.Month)
 
   return (
@@ -44,6 +44,7 @@ export default function Home() {
           <div className={styles.select_container}>
             {/* TODO: implement Select box from scratch for better performance and fuzzy search */}
             <Select
+              defaultValue={options[0]}
               filterOption={createFilter({ ignoreAccents: false })}
               options={options}
               onChange={({ value }) => setPair(value)}
