@@ -57,7 +57,7 @@ export default function Home() {
           </div>
           <PeriodSelector onSelect={setPeriod} selected={period} />
         </div>
-        <div>
+        <div className={styles.chart_container}>
           <ApolloConsumer>
             {(client: ApolloClient<NormalizedCacheObject>) => (
               <SwapVolumeChart

@@ -38,7 +38,7 @@ export default function useSwapData(
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [result, setResult] = useState([])
+  const [result, setResult] = useState<SwapDataSeries>([])
 
   useEffect(() => {
     // initialize

@@ -12,11 +12,17 @@ import { TokenPair } from '../utils/tokenlist'
 import LoadingIndicator from './LoadingIndicator'
 import useSwapData from '../hooks/useSwapData'
 import { Period } from '../constant'
+import { SwapDataSeries } from '../types'
+import ChartWarning from './ChartWarning'
 
 type Props = {
   pair: TokenPair | undefined
   period: Period
   apolloClient: ApolloClient<NormalizedCacheObject>
+}
+
+function noData(data: SwapDataSeries): boolean {
+  return data.length === 0
 }
 
 const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
@@ -31,9 +37,11 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
 
   if (loading) return <LoadingIndicator />
   if (error) return <div>error fetching data: {JSON.stringify(error)}</div>
+  if (noData(data))
+    return <ChartWarning text="Not enough data available for this interval" />
 
   return (
-    <div style={{ width: 500, height: 300 }}>
+    <div style={{ width: '100%', height: 400 }}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           width={500}

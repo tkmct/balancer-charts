@@ -39,3 +39,7 @@
 .select_container {
   width: 240px;
 }
+
+.chart_container {
+  margin: 16px 8px;
+}
