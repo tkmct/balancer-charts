@@ -42,13 +42,13 @@ const PeriodSelector: React.FC<Props> = ({ onSelect, selected }) => {
         selected={selected === Period.Month}
       />
       <PeriodButton
-        label="3 Month"
+        label="3 Months"
         value={Period.ThreeMonth}
         onClick={onSelect}
         selected={selected === Period.ThreeMonth}
       />
       <PeriodButton
-        label="6 Month"
+        label="6 Months"
         value={Period.SixMonth}
         onClick={onSelect}
         selected={selected === Period.SixMonth}

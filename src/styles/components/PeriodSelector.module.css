@@ -1,11 +1,11 @@
 .period_button {
   min-width: 80px;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border: solid 1px var(--border);
   border-radius: var(--border-radius-medium);
   background-color: var(--background-control);
   color: var(--text-primary);
-  font-size: var(--font-size-medium);
+  font-size: var(--font-size-small);
   margin: 0 4px;
 }
 
