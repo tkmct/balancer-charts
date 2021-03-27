@@ -109,3 +109,20 @@ export function createSwapVolumeSeriesData(
     value: Math.round(result[k].value)
   }))
 }
+
+export function formatPriceData(data: SwapDataSeries, isSwap1: boolean) {
+  return [
+    {
+      name: 'candle',
+      data: data.map((swap) => ({
+        x: swap.time,
+        y: [
+          isSwap1 ? swap.ohlc1.open : swap.ohlc2.open,
+          isSwap1 ? swap.ohlc1.high : swap.ohlc2.high,
+          isSwap1 ? swap.ohlc1.low : swap.ohlc2.low,
+          isSwap1 ? swap.ohlc1.close : swap.ohlc2.close
+        ]
+      }))
+    }
+  ]
+}

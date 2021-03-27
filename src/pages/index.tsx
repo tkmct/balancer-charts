@@ -1,21 +1,26 @@
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import Select, { createFilter } from 'react-select'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
+import { formatPriceData } from '../utils/seriesDataGenerator'
 import { Period, SUBGRAPH_URL } from '../constant'
 import classNames from 'classnames'
 import useSwapData from '../hooks/useSwapData'
 
 import Header from '../components/Header'
 import SwapVolumeChart from '../components/SwapVolumeChart'
-import PairPriceChart from '../components/PairPriceChart'
 import PeriodSelector from '../components/PeriodSelector'
 import PageTitle from '../components/PageTitle'
 
 import styles from '../styles/Home.module.css'
 import ChartWarning from '../components/ChartWarning'
 import LoadingIndicator from '../components/LoadingIndicator'
+
+const PairPriceChart = dynamic(() => import('../components/PairPriceChart'), {
+  ssr: false
+})
 
 const client = new ApolloClient({
   uri: SUBGRAPH_URL,
@@ -115,7 +120,9 @@ const Home = () => {
           ) : chartKind === ChartKind.Volume ? (
             <SwapVolumeChart data={data} pair={pair} period={period} />
           ) : (
-            <PairPriceChart />
+            <PairPriceChart
+              data={formatPriceData(data, chartKind === ChartKind.Price1)}
+            />
           )}
         </div>
       </main>
