@@ -27,3 +27,27 @@
   min-width: 520px;
   margin: 16px 0;
 }
+
+.chart_control {
+  margin-bottom: 12px;
+}
+
+.chart_kind_selector {
+  width: 260px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart_select_button {
+  font-size: var(--font-size-medium);
+  border: solid 1px var(--border);
+  color: var(--text-secondary);
+  background-color: var(--background-control);
+  border-radius: var(--border-radius-large);
+  padding: 8px 16px;
+}
+
+.chart_select_button_selected {
+  background-color: var(--info);
+  color: var(--text-primary);
+}

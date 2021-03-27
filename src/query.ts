@@ -21,7 +21,9 @@ export const GET_SWAPS = gql`
     ) {
       id
       tokenInSym
+      tokenAmountIn
       tokenOutSym
+      tokenAmountOut
       timestamp
       value
     }
@@ -38,7 +40,9 @@ export const GET_SWAPS = gql`
     ) {
       id
       tokenInSym
+      tokenAmountIn
       tokenOutSym
+      tokenAmountOut
       timestamp
       value
     }

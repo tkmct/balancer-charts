@@ -54,8 +54,6 @@ export default function useSwapData(
       let result: SwapDataSeries = []
       let swapRemains1 = true
       let swapRemains2 = true
-      const dayBefore = dayjs().subtract(1, 'day').unix()
-      const twoDaysBefore = dayjs().subtract(2, 'day').unix()
 
       while (remains) {
         const res = await apolloClient.query({

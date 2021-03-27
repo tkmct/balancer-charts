@@ -8,13 +8,21 @@ import {
 import Select, { createFilter } from 'react-select'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
 import { Period } from '../constant'
+import classNames from 'classnames'
 
 import Header from '../components/Header'
 import SwapVolumeChart from '../components/SwapVolumeChart'
+import PairPriceChart from '../components/PairPriceChart'
 import PeriodSelector from '../components/PeriodSelector'
 import PageTitle from '../components/PageTitle'
 
 import styles from '../styles/Home.module.css'
+
+enum ChartKind {
+  Volume,
+  Price1,
+  Price2
+}
 
 export default function Home() {
   const options = tokenPairs.map((pair) => ({
@@ -24,6 +32,7 @@ export default function Home() {
 
   const [pair, setPair] = useState(options[0].value)
   const [period, setPeriod] = useState(Period.Month)
+  const [chartKind, setChartKind] = useState(ChartKind.Volume)
 
   return (
     <div className={styles.container}>
@@ -51,18 +60,56 @@ export default function Home() {
               }}
             />
           </div>
-          <PeriodSelector onSelect={setPeriod} selected={period} />
+          <div className={styles.chart_kind_selector}>
+            <button
+              className={classNames(
+                styles.chart_select_button,
+                chartKind === ChartKind.Volume &&
+                  styles.chart_select_button_selected
+              )}
+              onClick={() => setChartKind(ChartKind.Volume)}
+            >
+              Volume
+            </button>
+            <button
+              className={classNames(
+                styles.chart_select_button,
+                chartKind === ChartKind.Price1 &&
+                  styles.chart_select_button_selected
+              )}
+              onClick={() => setChartKind(ChartKind.Price1)}
+            >
+              Price
+            </button>
+            <button
+              className={classNames(
+                styles.chart_select_button,
+                chartKind === ChartKind.Price2 &&
+                  styles.chart_select_button_selected
+              )}
+              onClick={() => setChartKind(ChartKind.Price2)}
+            >
+              Price2
+            </button>
+          </div>
         </div>
         <div className={styles.chart_container}>
-          <ApolloConsumer>
-            {(client: ApolloClient<NormalizedCacheObject>) => (
-              <SwapVolumeChart
-                pair={pair}
-                period={period}
-                apolloClient={client}
-              />
-            )}
-          </ApolloConsumer>
+          <div className={styles.chart_control}>
+            <PeriodSelector onSelect={setPeriod} selected={period} />
+          </div>
+          {chartKind === ChartKind.Volume ? (
+            <ApolloConsumer>
+              {(client: ApolloClient<NormalizedCacheObject>) => (
+                <SwapVolumeChart
+                  pair={pair}
+                  period={period}
+                  apolloClient={client}
+                />
+              )}
+            </ApolloConsumer>
+          ) : (
+            <PairPriceChart />
+          )}
         </div>
       </main>
     </div>
