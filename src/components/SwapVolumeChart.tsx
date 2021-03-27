@@ -1,6 +1,6 @@
 import {
-  AreaChart,
-  Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -43,7 +43,7 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
   return (
     <div style={{ width: '100%', height: 400 }}>
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
+        <BarChart
           width={500}
           height={400}
           data={data}
@@ -54,7 +54,7 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
             bottom: 0
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="4 4" />
           <XAxis dataKey="time" />
           <YAxis
             orientation="right"
@@ -84,13 +84,8 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, apolloClient }) => {
               color: '#fff'
             }}
           />
-          <Area
-            dataKey="value"
-            stroke="#8884d8"
-            fill="#8884d8"
-            fillOpacity="0.3"
-          />
-        </AreaChart>
+          <Bar dataKey="value" fill="#65c0f3" fillOpacity="0.8" />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   )
