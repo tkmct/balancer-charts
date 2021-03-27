@@ -1,14 +1,11 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import {
-  ApolloClient,
-  ApolloConsumer,
-  NormalizedCacheObject
-} from '@apollo/client'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 import Select, { createFilter } from 'react-select'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
-import { Period } from '../constant'
+import { Period, SUBGRAPH_URL } from '../constant'
 import classNames from 'classnames'
+import useSwapData from '../hooks/useSwapData'
 
 import Header from '../components/Header'
 import SwapVolumeChart from '../components/SwapVolumeChart'
@@ -17,6 +14,13 @@ import PeriodSelector from '../components/PeriodSelector'
 import PageTitle from '../components/PageTitle'
 
 import styles from '../styles/Home.module.css'
+import ChartWarning from '../components/ChartWarning'
+import LoadingIndicator from '../components/LoadingIndicator'
+
+const client = new ApolloClient({
+  uri: SUBGRAPH_URL,
+  cache: new InMemoryCache()
+})
 
 enum ChartKind {
   Volume,
@@ -24,7 +28,7 @@ enum ChartKind {
   Price2
 }
 
-export default function Home() {
+const Home = () => {
   const options = tokenPairs.map((pair) => ({
     value: pair,
     label: getPairName(pair)
@@ -33,6 +37,13 @@ export default function Home() {
   const [pair, setPair] = useState(options[0].value)
   const [period, setPeriod] = useState(Period.Month)
   const [chartKind, setChartKind] = useState(ChartKind.Volume)
+
+  const { loading, error, data } = useSwapData(
+    pair.token1.address,
+    pair.token2.address,
+    client,
+    period
+  )
 
   return (
     <div className={styles.container}>
@@ -79,7 +90,7 @@ export default function Home() {
               )}
               onClick={() => setChartKind(ChartKind.Price1)}
             >
-              Price
+              {pair.token1.symbol}/{pair.token2.symbol}
             </button>
             <button
               className={classNames(
@@ -89,7 +100,7 @@ export default function Home() {
               )}
               onClick={() => setChartKind(ChartKind.Price2)}
             >
-              Price2
+              {pair.token2.symbol}/{pair.token1.symbol}
             </button>
           </div>
         </div>
@@ -97,16 +108,12 @@ export default function Home() {
           <div className={styles.chart_control}>
             <PeriodSelector onSelect={setPeriod} selected={period} />
           </div>
-          {chartKind === ChartKind.Volume ? (
-            <ApolloConsumer>
-              {(client: ApolloClient<NormalizedCacheObject>) => (
-                <SwapVolumeChart
-                  pair={pair}
-                  period={period}
-                  apolloClient={client}
-                />
-              )}
-            </ApolloConsumer>
+          {loading ? (
+            <LoadingIndicator />
+          ) : error ? (
+            <ChartWarning text={error} />
+          ) : chartKind === ChartKind.Volume ? (
+            <SwapVolumeChart data={data} pair={pair} period={period} />
           ) : (
             <PairPriceChart />
           )}
@@ -115,3 +122,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home

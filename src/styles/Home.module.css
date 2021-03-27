@@ -33,7 +33,6 @@
 }
 
 .chart_kind_selector {
-  width: 260px;
   display: flex;
   justify-content: space-between;
 }
@@ -45,6 +44,7 @@
   background-color: var(--background-control);
   border-radius: var(--border-radius-large);
   padding: 8px 16px;
+  margin-left: 8px;
 }
 
 .chart_select_button_selected {
