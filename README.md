@@ -16,6 +16,8 @@ DEMO: https://kind-mcnulty-b01c6e.netlify.app
   - Improve data fetching performance. currently, it takes long to fetch 6 months data because of the scheme of balancer subgraph. it might be possible to optimize subgraph scheme to fetch data more efficiently. (I'd like to talk to the team about this if possible)
 - Code quality
   - Adding more tests for better maintainability
+- Responsive design
+  - support responsive design
 
 ## Getting Started
 
