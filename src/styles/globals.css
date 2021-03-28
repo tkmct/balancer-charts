@@ -64,3 +64,23 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  background: #21222c;
+  border-radius: 8px;
+  border-color: #333;
+  box-shadow: 0 10px 20px rgb(0 0 0 / 10%);
+}
+
+.tooltip-container {
+  font-size: var(--font-size-medium);
+  padding: 8px;
+  background: #21222c;
+  border-radius: 8px;
+  border: solid 1px #333;
+  box-shadow: 0 10px 20px rgb(0 0 0 / 10%);
+}
+
+.tooltip-title {
+  margin-bottom: 8px;
+}

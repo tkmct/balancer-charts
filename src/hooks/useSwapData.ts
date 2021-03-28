@@ -27,6 +27,17 @@ function calculateOneMonthBefore(period: Period = Period.Month) {
   return dayjs().subtract(month, 'month').startOf('day').unix()
 }
 
+/**
+ * @param token1 address of one side of the pair
+ * @param token2 address of the other side of the pair
+ * @param apolloClient apolloClient object to fetch data
+ * @param period time range. should be one month/ three months/ six months
+ *
+ * note: volume is calculated by adding up all the value field of swaps in subgraph.
+ * price of pair is calculated for each swap data in subgraph. calculated by tokenAmountOut/tokenAmountIn.
+ * to use them for candle chart data, chunk them with date (unix time) and get open, high, low and close.
+ *
+ */
 export default function useSwapData(
   token1: string,
   token2: string,
@@ -95,7 +106,12 @@ export default function useSwapData(
       setLoading(false)
     }
 
-    fetchSwaps()
+    try {
+      fetchSwaps()
+    } catch (e) {
+      setError(new Error('Fail fetching data. please retry later.'))
+      setLoading(false)
+    }
   }, [token1, token2, period])
 
   return { loading, error, data: result }
