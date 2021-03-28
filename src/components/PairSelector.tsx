@@ -1,4 +1,4 @@
-import { getPairName, TokenPair, tokenPairs } from '../utils/tokenlist'
+import { TokenPair, tokenPairs } from '../utils/tokenlist'
 import Fuse from 'fuse.js'
 import { Search } from 'react-feather'
 
