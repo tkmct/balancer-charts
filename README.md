@@ -1,6 +1,7 @@
 # Balancer charts
 
 This project is to show volume and price information of trading pairs on balancer protocol.
+DEMO: https://kind-mcnulty-b01c6e.netlify.app
 
 ## Future development plans
 
