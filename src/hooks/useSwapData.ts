@@ -106,7 +106,12 @@ export default function useSwapData(
       setLoading(false)
     }
 
-    fetchSwaps()
+    try {
+      fetchSwaps()
+    } catch (e) {
+      setError(new Error('Fail fetching data. please retry later.'))
+      setLoading(false)
+    }
   }, [token1, token2, period])
 
   return { loading, error, data: result }

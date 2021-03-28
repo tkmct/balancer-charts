@@ -118,10 +118,11 @@ const Home = () => {
           ) : error ? (
             <ChartWarning text={error} />
           ) : chartKind === ChartKind.Volume ? (
-            <SwapVolumeChart data={data} pair={pair} period={period} />
+            <SwapVolumeChart data={data} pair={pair} />
           ) : (
             <PairPriceChart
               data={formatPriceData(data, chartKind === ChartKind.Price1)}
+              period={period}
             />
           )}
         </div>

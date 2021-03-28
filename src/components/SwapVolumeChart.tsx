@@ -8,13 +8,13 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import { TokenPair } from '../utils/tokenlist'
-import { Period } from '../constant'
+import { colors, Period, sizes } from '../constant'
 import { SwapDataSeries } from '../types'
 import ChartWarning from './ChartWarning'
+import dayjs from 'dayjs'
 
 type Props = {
   pair: TokenPair | undefined
-  period: Period
   data: SwapDataSeries
 }
 
@@ -22,13 +22,13 @@ function noData(data: SwapDataSeries): boolean {
   return data.length === 0
 }
 
-const SwapVolumeChart: React.FC<Props> = ({ pair, period, data }) => {
+const SwapVolumeChart: React.FC<Props> = ({ pair, data }) => {
   if (!pair) return <div>Please select pair</div>
   if (noData(data))
     return <ChartWarning text="Not enough data available for this interval" />
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
+    <div style={{ width: '100%', height: 380 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}
@@ -41,10 +41,22 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, data }) => {
             bottom: 0
           }}
         >
-          <CartesianGrid strokeDasharray="4 4" />
-          <XAxis dataKey="time" />
+          <CartesianGrid strokeDasharray="4" vertical={false} />
+          <XAxis
+            dataKey="time"
+            tick={{
+              fill: colors.dark['--text-secondary'],
+              fontSize: sizes['--font-size-medium']
+            }}
+            tickFormatter={(value) => dayjs(value).format('M/D')}
+          />
           <YAxis
             orientation="right"
+            axisLine={false}
+            tick={{
+              fill: colors.dark['--text-secondary'],
+              fontSize: sizes['--font-size-medium']
+            }}
             tickFormatter={(value) =>
               new Intl.NumberFormat('en-US', {
                 notation: 'compact',
@@ -59,19 +71,23 @@ const SwapVolumeChart: React.FC<Props> = ({ pair, period, data }) => {
               'Volume'
             ]}
             contentStyle={{
-              backgroundColor: '#21222c',
-              borderRadius: '8px',
-              borderColor: '#333',
+              backgroundColor: colors.dark['--background-secondary'],
+              borderRadius: sizes['--border-radius-medium'],
+              borderColor: colors.dark['--border'],
               boxShadow: '0 10px 20px rgb(0 0 0 / 10%)'
             }}
             itemStyle={{
-              color: '#fff'
+              color: colors.dark['--text-primary']
             }}
             labelStyle={{
-              color: '#fff'
+              color: colors.dark['--text-primary']
             }}
           />
-          <Bar dataKey="value" fill="#65c0f3" fillOpacity="0.8" />
+          <Bar
+            dataKey="value"
+            fill={colors.dark['--bar-chart']}
+            fillOpacity="0.8"
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
