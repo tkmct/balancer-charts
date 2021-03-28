@@ -2,7 +2,6 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-import Select, { createFilter } from 'react-select'
 import { getPairName, tokenPairs } from '../utils/tokenlist'
 import { formatPriceData } from '../utils/seriesDataGenerator'
 import { Period, SUBGRAPH_URL } from '../constant'
@@ -13,11 +12,13 @@ import Header from '../components/Header'
 import SwapVolumeChart from '../components/SwapVolumeChart'
 import PeriodSelector from '../components/PeriodSelector'
 import PageTitle from '../components/PageTitle'
+import PairSelector from '../components/PairSelector'
 
 import styles from '../styles/Home.module.css'
 import ChartWarning from '../components/ChartWarning'
 import LoadingIndicator from '../components/LoadingIndicator'
 
+// PairPriceChart depends on apexcharts which cannot be rendered on server side
 const PairPriceChart = dynamic(() => import('../components/PairPriceChart'), {
   ssr: false
 })
@@ -59,22 +60,10 @@ const Home = () => {
       <Header />
 
       <main className={styles.main}>
-        <PageTitle title="Swap Volumes" />
+        <PageTitle title="Swap Volume" pair={pair} />
         <div className={styles.select_control}>
           <div className={styles.select_container}>
-            {/* TODO: implement Select box from scratch for better performance and fuzzy search */}
-            <Select
-              defaultValue={options[0]}
-              filterOption={createFilter({ ignoreAccents: false })}
-              options={options}
-              onChange={({ value }) => setPair(value)}
-              styles={{
-                menu: (provided) => ({
-                  ...provided,
-                  color: 'black'
-                })
-              }}
-            />
+            <PairSelector onSelect={setPair} />
           </div>
           <div className={styles.chart_kind_selector}>
             <button
@@ -117,6 +106,8 @@ const Home = () => {
             <LoadingIndicator />
           ) : error ? (
             <ChartWarning text={error} />
+          ) : data.length === 0 ? (
+            <ChartWarning text="Not enough data available for this pair." />
           ) : chartKind === ChartKind.Volume ? (
             <SwapVolumeChart data={data} pair={pair} />
           ) : (

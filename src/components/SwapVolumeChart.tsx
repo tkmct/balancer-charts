@@ -8,9 +8,8 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import { TokenPair } from '../utils/tokenlist'
-import { colors, Period, sizes } from '../constant'
+import { colors, sizes } from '../constant'
 import { SwapDataSeries } from '../types'
-import ChartWarning from './ChartWarning'
 import dayjs from 'dayjs'
 
 type Props = {
@@ -18,14 +17,8 @@ type Props = {
   data: SwapDataSeries
 }
 
-function noData(data: SwapDataSeries): boolean {
-  return data.length === 0
-}
-
 const SwapVolumeChart: React.FC<Props> = ({ pair, data }) => {
   if (!pair) return <div>Please select pair</div>
-  if (noData(data))
-    return <ChartWarning text="Not enough data available for this interval" />
 
   return (
     <div style={{ width: '100%', height: 380 }}>

@@ -48,6 +48,6 @@
 }
 
 .chart_select_button_selected {
-  background-color: var(--info);
+  background: linear-gradient(185deg, #f0f 0%, #00f 100%);
   color: var(--text-primary);
 }
