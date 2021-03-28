@@ -4,12 +4,13 @@
   border: solid 1px var(--border);
   border-radius: var(--border-radius-medium);
   background-color: var(--background-control);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-size: var(--font-size-small);
   margin: 0 4px;
 }
 
 .period_button_selected {
+  color: var(--text-primary);
   background: linear-gradient(185deg, #f0f 0%, #00f 100%);
 }
 
