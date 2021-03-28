@@ -9,7 +9,11 @@ type PairItemProps = { pair: TokenPair; onClick: (pair: TokenPair) => void }
 
 const PairItem: React.FC<PairItemProps> = ({ pair, onClick }) => {
   return (
-    <div className={styles.suggestion_item} onClick={() => onClick(pair)}>
+    <div
+      key={pair.pairName}
+      className={styles.suggestion_item}
+      onClick={() => onClick(pair)}
+    >
       {pair.pairName}
     </div>
   )
