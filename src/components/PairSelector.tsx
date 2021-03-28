@@ -1,5 +1,6 @@
 import { getPairName, TokenPair, tokenPairs } from '../utils/tokenlist'
 import Fuse from 'fuse.js'
+import { Search } from 'react-feather'
 
 import styles from '../styles/components/PairSelector.module.css'
 import { useEffect, useState, useRef } from 'react'
@@ -63,6 +64,7 @@ const PairSelector: React.FC<Props> = ({ onSelect }) => {
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => setFocused(true)}
         />
+        <Search />
       </div>
       {focused && suggested.length > 0 && (
         <div className={styles.suggestion_field} ref={suggestionRef}>
